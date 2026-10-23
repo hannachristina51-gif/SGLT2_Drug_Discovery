@@ -1,0 +1,6 @@
+Name,SMILES,Predicted_pActivity,Potensi
+Dapagliflozin (SGLT2 Inhibitor),CC1=C(C=C(C=C1)CC2=C(C=CC(=C2)Cl)OCC)C3C(C(C(C(O3)CO)O)O)O,7.843831728870522,Potensial Aktif
+Caffeine (Stimulan),CN1C=NC2=C1C(=O)N(C(=O)N2C)C,6.840647417586122,Potensial Aktif
+Aspirin (Analgesik),CC(=O)OC1=CC=CC=C1C(=O)O,6.666451876620024,Potensial Aktif
+Metformin (Antidiabetik),CN(C)C(=NC(=N)N)N,6.421907514838859,Potensial Aktif
+Ibuprofen (NSAID),CC(C)CC1=CC=C(C=C1)C(C)C(=O)O,6.272736977888041,Potensial Aktif
