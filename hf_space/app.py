@@ -1,11 +1,29 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
 import os
-import joblib
+import sys
 import io
-from rdkit import Chem
-from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
+
+# Dynamic dependency resolution jika cache cloud belum memuat library
+try:
+    import joblib
+    import pandas as pd
+    import numpy as np
+    from rdkit import Chem
+    from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
+except ImportError:
+    import subprocess
+    with st.spinner("Menyiapkan dependensi cloud (RDKit, Scikit-Learn, Joblib)..."):
+        subprocess.check_call([
+            sys.executable, "-m", "pip", "install",
+            "joblib>=1.3.0", "scikit-learn>=1.4.0", "rdkit>=2023.9.1",
+            "pillow>=10.0.0", "pandas>=2.0.0", "numpy>=1.24.0,<2.1.0"
+        ])
+    import joblib
+    import pandas as pd
+    import numpy as np
+    from rdkit import Chem
+    from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
+
 
 # --- Page Configuration ---
 st.set_page_config(
