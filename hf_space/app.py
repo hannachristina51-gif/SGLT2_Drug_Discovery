@@ -3,6 +3,14 @@ import os
 import sys
 import io
 
+# --- Page Configuration (Wajib menjadi instruksi Streamlit paling pertama) ---
+st.set_page_config(
+    page_title="SGLT2 Virtual Screening",
+    page_icon="🧬",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
 # Dynamic dependency resolution jika cache cloud belum memuat library
 try:
     import joblib
@@ -10,28 +18,16 @@ try:
     import numpy as np
     from rdkit import Chem
     from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
-except ImportError:
+except ImportError as e:
+    st.info("📦 Sedang mengunduh dan menyiapkan dependensi sistem (RDKit, Scikit-Learn, Joblib)...")
     import subprocess
-    with st.spinner("Menyiapkan dependensi cloud (RDKit, Scikit-Learn, Joblib)..."):
-        subprocess.check_call([
-            sys.executable, "-m", "pip", "install",
-            "joblib>=1.3.0", "scikit-learn>=1.4.0", "rdkit>=2023.9.1",
-            "pillow>=10.0.0", "pandas>=2.0.0", "numpy>=1.24.0,<2.1.0"
-        ])
-    import joblib
-    import pandas as pd
-    import numpy as np
-    from rdkit import Chem
-    from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
+    subprocess.check_call([
+        sys.executable, "-m", "pip", "install",
+        "joblib>=1.3.0", "scikit-learn>=1.4.0", "rdkit>=2023.9.1",
+        "pillow>=10.0.0", "pandas>=2.0.0", "numpy>=1.24.0,<2.1.0"
+    ])
+    st.rerun()
 
-
-# --- Page Configuration ---
-st.set_page_config(
-    page_title="SGLT2 Virtual Screening",
-    page_icon="🧬",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
 
 # --- Custom Styling ---
 st.markdown("""
