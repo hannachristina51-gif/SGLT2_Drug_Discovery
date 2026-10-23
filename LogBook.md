@@ -82,3 +82,10 @@ Dokumen ini mencatat riwayat perubahan dan pembaruan yang dilakukan pada dokumen
   - Menempatkan model `rf_regressor_model.pkl` dan `scaler.pkl` ke dalam `hf_space/models/` dengan konfigurasi Git LFS `.gitattributes`.
   - Mengembangkan script `deploy_to_hf.py` berbasis library `huggingface_hub` yang memungkinkan proses pembuatan repository space dan unggah berkas secara otomatis via terminal dengan satu perintah.
 
+## 23 Oktober 2026 - Inisialisasi & Publikasi Repositori GitHub
+- **Aktivitas**: Menginisialisasi *Git version control* lokal, menyusun `.gitignore` dan `README.md` terstandarisasi, membuat repositori publik di akun GitHub `hannachristina51-gif`, dan mengunggah seluruh berkas proyek.
+- **Detail Implementasi**:
+  - Mengonfigurasi `.gitignore` untuk mengabaikan lingkungan virtual `venv/`, cache Python, dan file sementara macOS (`.DS_Store`).
+  - Menulis dokumen komprehensif `README.md` dengan badge status, tabel metrik performa model, struktur direktori, dan panduan peluncuran lokal/cloud.
+  - Membuat repositori publik baru: `https://github.com/hannachristina51-gif/SGLT2_Drug_Discovery`.
+  - Melakukan `git commit` dan `git push` seluruh berkas proyek (termasuk model Machine Learning, data terkurasi, skrip virtual screening, dan materi presentasi) ke branch `main`.
