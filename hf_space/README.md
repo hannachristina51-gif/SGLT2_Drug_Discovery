@@ -31,7 +31,11 @@ Aplikasi *Machine Learning* interaktif untuk penemuan obat kandidat inhibitor **
 
 ## ⚙️ Fitur Aplikasi
 1. **Single Molecule Prediction**: Prediksi nilai bioaktivitas ($pActivity$) dan estimasi $IC_{50}$ (nM) dari representasi SMILES.
-2. **Visualisasi Struktur 2D**: Rendering otomatis konformasi 2D molekul menggunakan RDKit.
-3. **Validasi Lipinski's Rule of Five**: Analisis kelayakan *drug-likeness* secara instan.
-4. **Batch Virtual Screening**: Skrining massal hingga ratusan senyawa via unggah file CSV.
-5. **Ekspor Laporan**: Unduh hasil analisis langsung dalam format CSV.
+2. **Menu Preset Molekul Acuan**: Pilihan cepat 1-klik untuk senyawa komersial (*Dapagliflozin, Empagliflozin, Canagliflozin, Metformin, Aspirin*).
+3. **Visualisasi Struktur 2D**: Rendering otomatis konformasi 2D molekul menggunakan RDKit.
+4. **Validasi Lipinski's Rule of Five**: Analisis kelayakan *drug-likeness* secara instan.
+5. **Batch Virtual Screening**: Skrining massal hingga ratusan senyawa via unggah file CSV.
+6. **Unduh Contoh File CSV**: Fasilitas instan untuk mengunduh template CSV pengujian.
+7. **Ekspor Laporan**: Unduh hasil analisis langsung dalam format CSV.
+8. **Tab Metodologi**: Penjelasan teoritis mengenai target, rumus bioaktivitas, dan arsitektur model.
+

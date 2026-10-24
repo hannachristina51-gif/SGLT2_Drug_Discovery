@@ -89,3 +89,14 @@ Dokumen ini mencatat riwayat perubahan dan pembaruan yang dilakukan pada dokumen
   - Menulis dokumen komprehensif `README.md` dengan badge status, tabel metrik performa model, struktur direktori, dan panduan peluncuran lokal/cloud.
   - Membuat repositori publik baru: `https://github.com/hannachristina51-gif/SGLT2_Drug_Discovery`.
   - Melakukan `git commit` dan `git push` seluruh berkas proyek (termasuk model Machine Learning, data terkurasi, skrip virtual screening, dan materi presentasi) ke branch `main`.
+
+## 24 Oktober 2026 - Stabilisasi Streamlit Cloud, Resolusi Runtime, & Sinkronisasi Repositori
+- **Aktivitas**: Mengoptimasi dan menstabilkan peluncuran aplikasi pada Streamlit Community Cloud serta memperbarui seluruh dokumentasi teknis proyek.
+- **Detail Implementasi**:
+  - **Resolusi Dependency `joblib` & RDKit**: Mengatasi *ModuleNotFoundError* di lingkungan container cloud Linux dengan memprioritaskan urutan instalasi `joblib>=1.3.0` dan `scikit-learn` pada `requirements.txt`.
+  - **Penyediaan Linux System Packages**: Menambahkan file `packages.txt` di root repositori berisi pustaka grafis Debian (`libxrender1`, `libxext6`) agar RDKit dapat merender struktur kimia 2D tanpa *shared object error*.
+  - **Perbaikan Urutan Eksekusi Streamlit**: Memperbaiki `app.py` dengan menempatkan `st.set_page_config()` pada baris teratas skrip sebelum pemanggilan modul Streamlit lainnya guna mengeliminasi *StreamlitSetPageConfigMustBeFirstCommandError*.
+  - **Mekanisme Dynamic Self-Healing Fallback**: Memasang penanganan impor dinamis yang secara otomatis mengunduh pustaka esensial dan menjalankan `st.rerun()` apabila terjadi anomali cache container cloud.
+  - **Integrasi GitHub Dev Container**: Menyinkronkan konfigurasi `.devcontainer/devcontainer.json` untuk dukungan penuh pada GitHub Codespaces.
+  - **Sinkronisasi Dokumen Terpadu**: Memperbarui dokumen `README.md`, `TODO.md`, `README.txt`, dan `hf_space/README.md` untuk menyelaraskan status terkini proyek sebelum diunggah kembali ke GitHub.
+

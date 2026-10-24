@@ -9,7 +9,13 @@ Dokumen ini memetakan peta jalan (*roadmap*) dan daftar tugas (*to-do list*) str
 - [x] Ekstraksi deskriptor Lipinski (MW, LogP, HBD, HBA) dan Morgan Fingerprints (1024 & 2048-bit).
 - [x] Pelatihan model *Random Forest Regressor* dengan *Bemis-Murcko Scaffold Split* dan *Hyperparameter Tuning*.
 - [x] Validasi senyawa kontrol dunia nyata (*Dapagliflozin* terdeteksi dengan pActivity tertinggi 7.84).
-- [x] Aplikasi Web Streamlit dasar (`app.py`): *Single Molecule Prediction*, *Rule of 5 validation*, *Batch Screening CSV*, dan ekspor laporan CSV.
+- [x] Aplikasi Web Streamlit interaktif (`app.py`): *Single Molecule Prediction*, *Rule of 5 validation*, *Batch Screening CSV*, dan ekspor laporan CSV.
+- [x] Menu *preset* molekul kontrol komersial (*Dapagliflozin, Empagliflozin, Canagliflozin, Metformin, Aspirin*).
+- [x] Fasilitas unduhan berkas CSV contoh untuk pengujian *batch screening*.
+- [x] Tab khusus *Metodologi & Petunjuk Sains*.
+- [x] Paket siap-deploy ke Hugging Face Spaces (`hf_space/`) & skrip otomatis `deploy_to_hf.py`.
+- [x] Kompatibilitas deployment penuh ke Streamlit Community Cloud (`packages.txt` & `requirements.txt` Linux ready) dan GitHub Codespaces (`.devcontainer`).
+
 
 ---
 
@@ -95,9 +101,13 @@ Dokumen ini memetakan peta jalan (*roadmap*) dan daftar tugas (*to-do list*) str
   - Untuk 5 senyawa teratas hasil virtual screening ML, jalankan simulasi *docking* otomatis untuk mengukur energi bebas pengikatan ($\Delta G$ kkal/mol) dan interaksi residu asam amino kunci (*Glu99, Phe98, Val157, Trp291*).
 
 ### 3.3 Skalabilitas Arsitektur & Deployment Produksi
-- [ ] **Containerization & Deployment Cloud** `[SEDANG]`
-  - Buat `Dockerfile` dan konfigurasi `docker-compose.yml` untuk menjamin portabilitas tanpa kendala versi Python/RDKit/OS.
-  - Opsi deployment: Hugging Face Spaces / Streamlit Cloud / Server Laboratorium Kampus.
+- [x] **Cloud Hosting & Deployment (Streamlit Cloud & Hugging Face Spaces)** `[SELESAI]`
+  - Konfigurasi repositori siap-pakai di Streamlit Community Cloud (dukungan `packages.txt` & `requirements.txt`).
+  - Pembuatan bundel mandiri `hf_space/` dan skrip otomatis `deploy_to_hf.py` untuk Hugging Face Spaces.
+  - Penambahan `.devcontainer/devcontainer.json` untuk dukungan langsung di GitHub Codespaces.
+- [ ] **Containerization Mandiri (Dockerfile & docker-compose.yml)** `[SEDANG]`
+  - Buat image Docker mandiri untuk lingkungan kluster lokal atau on-premise kampus.
+
 - [ ] **REST API Headless (FastAPI Engine)** `[SEDANG]`
   - Pisahkan mesin inferensi ke dalam RESTful API (`FastAPI`) agar pipeline virtual screening dapat diakses via skrip Python eksternal, workflow KNIME, atau platform komputasi kluster.
 - [ ] **Automated Testing & CI/CD Pipeline** `[SEDANG]`

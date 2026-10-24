@@ -1,15 +1,16 @@
 # SGLT2 Inhibitor - Virtual Screening & Drug Discovery Platform 🧬
 
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=hannachristina51-gif/SGLT2_Drug_Discovery&branch=main&mainModule=app.py)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.35+-FF4B4B.svg)](https://streamlit.io)
 [![RDKit](https://img.shields.io/badge/RDKit-Cheminformatics-brightgreen.svg)](https://www.rdkit.org/)
+[![Scikit-Learn](https://img.shields.io/badge/scikit--learn-1.4+-orange.svg)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Aplikasi *in-silico* dan *machine learning* komprehensif untuk menyaring (*virtual screening*) dan memprediksi potensi bioaktivitas kandidat obat inhibitor **Sodium-Glucose Cotransporter 2 (SGLT2)** dalam terapi pengobatan Diabetes Melitus Tipe 2.
 
 Proyek ini mencakup alur lengkap (*end-to-end pipeline*):
 1. **Ekstraksi Data Biologis**: Penarikan data mentah bioaktivitas dari ChEMBL Database (Target ID: `CHEMBL1808`).
-2. **Prapemrosesan & Kurasi**: Standardisasi struktur molekul, penghapusan duplikat, dan kalkulasi $pActivity$ ($-\log_{10} IC_{50}$).
+2. **Prapemrosesan & Kurasi**: Standardisasi struktur molekul, eliminasi duplikat, dan kalkulasi nilai bioaktivitas $pActivity$ ($-\log_{10} IC_{50}$).
 3. **Rekayasa Fitur**: Ekstraksi *Morgan Fingerprints* (ECFP4, 2.048-bit) dan *Lipinski Physicochemical Descriptors* (MW, LogP, HBD, HBA).
 4. **Pemodelan Machine Learning**: Pelatihan model *Random Forest Regressor* dengan *Bemis-Murcko Scaffold Split* dan *Hyperparameter Tuning* ($R^2 \approx 0.73$).
 5. **Antarmuka Pengguna Interaktif (Web App)**: Aplikasi berbasis web dengan framework *Streamlit* untuk prediksi instan, visualisasi struktur 2D molekuler, dan skrining massal via CSV.
@@ -19,6 +20,7 @@ Proyek ini mencakup alur lengkap (*end-to-end pipeline*):
 ## 🚀 Fitur Utama Aplikasi
 
 - **🧬 Single Molecule Prediction**: Masukkan representasi string SMILES dari senyawa baru untuk memperoleh prediksi nilai bioaktivitas ($pActivity$) dan estimasi nilai $IC_{50}$ dalam satuan nanomolar (nM).
+- **🎯 Menu Preset Molekul Acuan**: Pilihan cepat 1-klik untuk molekul kontrol komersial (*Dapagliflozin, Empagliflozin, Canagliflozin, Metformin, Aspirin*) tanpa perlu mengetik string SMILES manual.
 - **🔬 Visualisasi Struktur Molekuler 2D**: Rendering visual otomatis konformasi dua dimensi senyawa menggunakan mesin kimia komputasi RDKit.
 - **🧪 Validasi Aturan Lima Lipinski (*Rule of Five*)**: Pengecekan otomatis parameter kelayakan sifat fisikokimia (*drug-likeness*) obat oral:
   - *Molecular Weight (MW) $\le 500$ Da*
@@ -26,7 +28,9 @@ Proyek ini mencakup alur lengkap (*end-to-end pipeline*):
   - *H-Bond Donors (HBD) $\le 5$*
   - *H-Bond Acceptors (HBA) $\le 10$*
 - **🗂️ Batch Virtual Screening**: Fasilitas unggah berkas CSV berisi ratusan hingga ribuan senyawa sekaligus untuk diskrining secara paralel dan massal.
+- **📄 Unduh Contoh Berkas CSV**: Tersedia tombol instan untuk mengunduh contoh berkas CSV pengujian bagi reviewer atau pengguna baru.
 - **📥 Ekspor Laporan Otomatis**: Unduh seluruh hasil analisis baik senyawa tunggal maupun batch ke dalam format berkas `.csv`.
+- **📖 Tab Metodologi Sains**: Penjelasan terperinci mengenai metrik bioaktivitas, rumus perhitungan $IC_{50}$, aturan Lipinski, dan arsitektur model.
 
 ---
 
@@ -45,10 +49,12 @@ Proyek ini mencakup alur lengkap (*end-to-end pipeline*):
 ## 📁 Struktur Repositori
 
 ```text
+├── .devcontainer/              # Konfigurasi container development (GitHub Codespaces)
 ├── app.py                      # Aplikasi web interaktif utama (Streamlit)
+├── packages.txt                # Dependensi pustaka sistem Linux Debian (libxrender1, libxext6)
+├── requirements.txt            # Dependensi pustaka Python cloud-ready
 ├── LogBook.md                  # Buku log historis progres riset mingguan
 ├── TODO.md                     # Roadmap pengembangan strategis & to-do list
-├── requirements.txt            # Dependensi pustaka Python
 ├── run_windows.bat             # Skrip launcher cepat untuk Windows
 ├── create_pptx.py              # Generator presentasi otomatis
 ├── presentation.md             # Bahan materi slide presentasi (Marp format)
@@ -73,7 +79,7 @@ Proyek ini mencakup alur lengkap (*end-to-end pipeline*):
 ## 💻 Panduan Menjalankan Secara Lokal
 
 ### Prasyarat
-- Python 3.8 – 3.11
+- Python 3.9 – 3.12
 - Git
 
 ### Langkah Instalasi
@@ -98,13 +104,18 @@ Aplikasi akan otomatis terbuka di browser lokal Anda pada alamat: `http://localh
 
 ---
 
-## 🌐 Deployment Cloud (Hugging Face Spaces)
+## 🌐 Deployment Cloud
 
-Aplikasi ini telah dilengkapi bundel siap-deploy di folder `hf_space/`. Untuk mengunggah secara otomatis:
+### Opsi 1: Streamlit Community Cloud (Rekomendasi Utama)
+Aplikasi ini sudah dioptimasi secara penuh untuk Streamlit Cloud (dengan `packages.txt` dan `requirements.txt` yang bersih). Anda dapat meluncurkannya dengan 1-klik:
+👉 **[Deploy ke Streamlit Cloud](https://share.streamlit.io/deploy?repository=hannachristina51-gif/SGLT2_Drug_Discovery&branch=main&mainModule=app.py)**
+
+### Opsi 2: Hugging Face Spaces
+Paket mandiri siap-deploy tersedia di folder `hf_space/`. Untuk mengunggah secara otomatis:
 ```bash
 python deploy_to_hf.py
 ```
-Atau ikuti panduan lengkap pada [TODO.md](TODO.md) dan [LogBook.md](LogBook.md).
+Atau drag & drop seluruh isi folder `hf_space/` ke Hugging Face Space baru bertipe **Streamlit**.
 
 ---
 
