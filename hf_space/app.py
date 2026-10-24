@@ -19,14 +19,20 @@ try:
     from rdkit import Chem
     from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
 except ImportError as e:
-    st.info("📦 Sedang mengunduh dan menyiapkan dependensi sistem (RDKit, Scikit-Learn, Joblib)...")
+    st.info(f"📦 Sedang mengunduh dan menyiapkan dependensi sistem (RDKit, Scikit-Learn, Joblib)...")
     import subprocess
-    subprocess.check_call([
-        sys.executable, "-m", "pip", "install",
-        "joblib>=1.3.0", "scikit-learn>=1.4.0", "rdkit>=2023.9.1",
-        "pillow>=10.0.0", "pandas>=2.0.0", "numpy>=1.24.0,<2.1.0"
-    ])
-    st.rerun()
+    try:
+        subprocess.check_call([
+            sys.executable, "-m", "pip", "install",
+            "joblib>=1.3.0", "scikit-learn>=1.4.0", "rdkit>=2023.9.1",
+            "pillow>=10.0.0", "pandas>=2.0.0", "numpy>=1.24.0,<2.1.0"
+        ])
+        st.success("✅ Dependensi berhasil diinstal! Memuat ulang aplikasi...")
+        st.rerun()
+    except Exception as err:
+        st.error(f"❌ Terjadi kendala saat instalasi dependensi: {err}")
+        st.stop()
+
 
 
 # --- Custom Styling ---
