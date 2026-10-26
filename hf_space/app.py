@@ -11,11 +11,54 @@ st.set_page_config(
 import os
 import sys
 import io
-import joblib
-import pandas as pd
-import numpy as np
-from rdkit import Chem
-from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
+
+# 1. Pastikan seluruh lokasi site-packages potensial di cloud terdaftar pada sys.path
+for site_path in [
+    "/home/adminuser/venv/lib/python3.11/site-packages",
+    "/home/adminuser/venv/lib/python3.12/site-packages",
+    "/home/adminuser/venv/lib/python3.10/site-packages",
+    "/home/adminuser/venv/lib/python3.14/site-packages",
+    "/home/appuser/venv/lib/python3.11/site-packages",
+    "/home/appuser/venv/lib/python3.12/site-packages",
+    "/home/appuser/venv/lib/python3.10/site-packages",
+    os.path.expanduser("~/.local/lib/python3.11/site-packages"),
+    os.path.expanduser("~/.local/lib/python3.12/site-packages"),
+    os.path.expanduser("~/.local/lib/python3.14/site-packages"),
+]:
+    if os.path.exists(site_path) and site_path not in sys.path:
+        sys.path.insert(0, site_path)
+
+# 2. Impor pustaka Machine Learning & Kimia dengan fallback bertingkat
+try:
+    import joblib
+except ImportError:
+    try:
+        import sklearn.utils._joblib as joblib
+    except ImportError:
+        import subprocess
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "joblib"])
+        import joblib
+
+try:
+    import pandas as pd
+    import numpy as np
+    import sklearn
+    from rdkit import Chem
+    from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
+except ImportError as err:
+    import subprocess
+    st.info(f"Sedang mengunduh dependensi ({err})... Mohon tunggu sebentar.")
+    subprocess.check_call([
+        sys.executable, "-m", "pip", "install",
+        "scikit-learn", "rdkit", "pandas", "numpy", "pillow"
+    ])
+    import pandas as pd
+    import numpy as np
+    import sklearn
+    from rdkit import Chem
+    from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
+    st.rerun()
+
 
 
 
