@@ -108,3 +108,19 @@ Dokumen ini mencatat riwayat perubahan dan pembaruan yang dilakukan pada dokumen
   - **Pencarian Dinamis Site-Packages**: Menambahkan pemindaian otomatis `glob.glob` untuk seluruh lokasi direktori `site-packages` Linux (`/home/**/site-packages`, `/mount/**/site-packages`, `/usr/local/**/site-packages`) di bagian inisialisasi awal skrip.
   - **Pembersihan Kode Subprocess**: Menghapus seluruh eksekusi runtime `pip install` via `subprocess` pada `app.py` dan `hf_space/app.py` agar aplikasi berjalan stabil, aman, dan kompatibel penuh dengan Debian Linux PEP 668.
   - **Pengujian & Deployment**: Menguji impor lokal hingga berstatus sukses tanpa error (`app.py imported successfully!`), menyematkan versi pada `.python-version` (3.11), serta memublikasikan pembaruan ke repositori GitHub pada branch `main`.
+
+
+## 26 Oktober 2026 - Investigasi & Analisis Diagnostik Runtime `ModuleNotFoundError: No module named 'sklearn'`
+- **Aktivitas**: Melakukan penelusuran mendalam terkait kendala *ModuleNotFoundError: No module named 'sklearn'* pada baris 40 `app.py` di lingkungan Streamlit Community Cloud (`sglt2-drug-discovery.streamlit.app`).
+- **Hasil Investigasi & Detail Analisis**:
+  - **Status Eksekusi Sebelum Baris 40**:
+    - Baris 4 `st.set_page_config()`: Berhasil dieksekusi sebagai perintah Streamlit pertama.
+    - Baris 37 `import joblib`: Berhasil 100% menggunakan pustaka *pure Python* `joblib` yang telah dibundel lokal di root repositori.
+    - Baris 38–39 `pandas` & `numpy`: Berhasil diimpor (paket bawaan dasar platform Streamlit).
+    - Baris 40 `import sklearn`: Memicu `ModuleNotFoundError`.
+  - **Identifikasi Akar Masalah**:
+    1. **Cache Virtual Environment Belum Ter-refresh (*Stale Cache*)**: Pada commit sebelumnya, file `requirements.txt` tidak mengalami modifikasi hash. Sistem CI/CD Streamlit Community Cloud mengabaikan eksekusi ulang `pip install` dan menggunakan cache environment lama yang sebelumnya mengalami kegagalan instalasi.
+    2. **Pengabaian Konfigurasi Runtime oleh Streamlit Cloud**: Berdasarkan spesifikasi resmi platform, Streamlit Community Cloud mengabaikan berkas `runtime.txt` dan `.python-version`. Penentuan interpreter Python sepenuhnya dikontrol via menu antarmuka *Advanced settings* pada dashboard Streamlit Cloud.
+    3. **Ketersediaan Binary Wheels**: Paket `scikit-learn` dan `rdkit` mengandalkan ekstensi terkompilasi C/C++. Jika container cloud berjalan pada versi Python yang belum memiliki roda distribusi (*pre-compiled binary wheels* seperti Python 3.14), proses instalasi saat *initial build* otomatis gagal dan dilewati oleh sistem cloud.
+  - **Urgensi Library**: Modul `sklearn` mutlak dibutuhkan oleh `joblib.load()` pada baris 110–111 untuk merekonstruksi kelas `sklearn.preprocessing._data.StandardScaler` dan `sklearn.ensemble._forest.RandomForestRegressor`.
+  - **Rencana Tindak Lanjut Terarah**: Menyelaraskan versi runtime pada menu *Advanced Settings* Streamlit Cloud ke Python 3.11/3.12 yang stabil, memperbarui file dependensi untuk memaksa proses *re-build*, serta melakukan *Clear cache and reboot* dari dashboard aplikasi.
