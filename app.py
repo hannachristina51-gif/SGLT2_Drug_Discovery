@@ -1,7 +1,4 @@
 import streamlit as st
-import os
-import sys
-import io
 
 # --- Page Configuration (Wajib menjadi instruksi Streamlit paling pertama) ---
 st.set_page_config(
@@ -11,27 +8,15 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Dynamic dependency resolution jika cache cloud belum memuat library
-try:
-    import joblib
-    import pandas as pd
-    import numpy as np
-    from rdkit import Chem
-    from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
-except ImportError as e:
-    st.info(f"📦 Sedang mengunduh dan menyiapkan dependensi sistem (RDKit, Scikit-Learn, Joblib)...")
-    import subprocess
-    try:
-        subprocess.check_call([
-            sys.executable, "-m", "pip", "install",
-            "joblib>=1.3.0", "scikit-learn>=1.4.0", "rdkit>=2023.9.1",
-            "pillow>=10.0.0", "pandas>=2.0.0", "numpy>=1.24.0,<2.1.0"
-        ])
-        st.success("✅ Dependensi berhasil diinstal! Memuat ulang aplikasi...")
-        st.rerun()
-    except Exception as err:
-        st.error(f"❌ Terjadi kendala saat instalasi dependensi: {err}")
-        st.stop()
+import os
+import sys
+import io
+import joblib
+import pandas as pd
+import numpy as np
+from rdkit import Chem
+from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
+
 
 
 
