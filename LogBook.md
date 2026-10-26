@@ -124,3 +124,20 @@ Dokumen ini mencatat riwayat perubahan dan pembaruan yang dilakukan pada dokumen
     3. **Ketersediaan Binary Wheels**: Paket `scikit-learn` dan `rdkit` mengandalkan ekstensi terkompilasi C/C++. Jika container cloud berjalan pada versi Python yang belum memiliki roda distribusi (*pre-compiled binary wheels* seperti Python 3.14), proses instalasi saat *initial build* otomatis gagal dan dilewati oleh sistem cloud.
   - **Urgensi Library**: Modul `sklearn` mutlak dibutuhkan oleh `joblib.load()` pada baris 110–111 untuk merekonstruksi kelas `sklearn.preprocessing._data.StandardScaler` dan `sklearn.ensemble._forest.RandomForestRegressor`.
   - **Rencana Tindak Lanjut Terarah**: Menyelaraskan versi runtime pada menu *Advanced Settings* Streamlit Cloud ke Python 3.11/3.12 yang stabil, memperbarui file dependensi untuk memaksa proses *re-build*, serta melakukan *Clear cache and reboot* dari dashboard aplikasi.
+
+## 26 Oktober 2026 - Implementasi Fitur Ekspor Laporan PDF Lengkap & Cetak Dokumen
+- **Aktivitas**: Mengembangkan dan mengintegrasikan modul generator laporan PDF komprehensif (`pdf_report.py`) dan fitur cetak interaktif pada aplikasi Streamlit (`app.py`).
+- **Detail Implementasi**:
+  - **Generator PDF Mandiri (`pdf_report.py`)**:
+    - Membangun template dokumen A4 resmi berbasis pustaka *pure Python* `fpdf2` yang dibundel langsung ke repositori (`./fpdf/`).
+    - Laporan senyawa tunggal (`generate_single_pdf_report`) memuat: gambar struktur kimia 2D resolusi tinggi via RDKit, formula & berat molekul, metrik bioaktivitas ($pActivity$ dan $IC_{50}$ nM), badge klasifikasi potensi farmakologis, tabel evaluasi 4 parameter *Lipinski's Rule of Five*, ringkasan metodologi AI (Random Forest, Morgan Fingerprints, Scaffold Split), serta *scientific disclaimer*.
+    - Laporan massal (`generate_batch_pdf_report`) menyajikan rekapitulasi statistik (persentase senyawa aktif, intermediate, tidak aktif) dan tabel 20 kandidat inhibitor SGLT2 teratas hasil penapisan.
+  - **Fitur Pratinjau & Cetak Interaktif (`window.print()`)**:
+    - Mengembangkan template HTML ramah-cetak (`get_printable_html`) dengan aturan CSS `@media print` untuk menghasilkan tata letak cetak dokumen A4 yang bersih dan rapi.
+    - Menambahkan tombol interaktif yang membuka dialog cetak browser langsung (*print to printer / save as PDF*).
+  - **Optimasi State Antarmuka Streamlit**:
+    - Mengintegrasikan penyimpanan hasil prediksi ke dalam `st.session_state` sehingga interaksi pengunduhan dokumen PDF/CSV dan tombol cetak tidak mereset tampilan hasil analisis.
+  - **Penyelarasan Repositori & Dokumentasi**:
+    - Menambahkan `fpdf2>=2.8.0` pada `requirements.txt`.
+    - Menyinkronkan pembaruan kode ke direktori `hf_space/`.
+    - Memperbarui status tugas nomor 15 pada `TODO.md` menjadi selesai.

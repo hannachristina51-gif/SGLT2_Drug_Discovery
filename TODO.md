@@ -38,8 +38,8 @@ Dokumen ini memetakan peta jalan (*roadmap*) dan daftar tugas (*to-do list*) str
   - Tambahkan tab visualisasi 3D interaktif menggunakan `py3Dmol` / `stmol` dengan kalkulasi konformasi energi rendah (*MMFF94 / UFF force field via RDKit*).
 - [ ] **Radar / Spider Chart Properti Fisikokimia** `[SEDANG]`
   - Tampilkan diagram radar untuk *Lipinski Properties* (MW, LogP, H-Donors, H-Acceptors, TPSA, Rotatable Bonds) agar pengguna dapat melihat profil *drug-likeness* secara visual dan intuitif.
-- [ ] **Ekspor Laporan Komprehensif (PDF/Excel)** `[SEDANG]`
-  - Sediakan tombol unduh laporan lengkap dalam format PDF (mencakup struktur molekul, metrik bioaktivitas, status Lipinski, dan disclaimer ilmiah) serta Excel format `.xlsx`.
+- [x] **Ekspor Laporan Komprehensif (PDF/Cetak/CSV)** `[SELESAI]`
+  - Sediakan tombol unduh laporan lengkap dalam format PDF (mencakup struktur molekul 2D, metrik bioaktivitas, status Lipinski, metodologi AI, dan disclaimer ilmiah) serta fitur cetak langsung (*print preview dialog*).
 
 ---
 
@@ -133,7 +133,7 @@ Dokumen ini memetakan peta jalan (*roadmap*) dan daftar tugas (*to-do list*) str
 | 12 | **Database Senyawa Bahan Alam Indonesia** | Data Presets | 🟡 Sedang | Fase 2 |
 | 13 | **Model Graph Neural Network (Chemprop/GNN)** | AI Lanjutan | 🟡 Sedang | Fase 3 |
 | 14 | **Containerization Docker & FastAPI Service** | Infrastruktur | 🟡 Sedang | Fase 3 |
-| 15 | **Ekspor Laporan PDF Lengkap & Cetak** | Fitur App | 🟡 Sedang | Fase 1 |
+| 15 | **Ekspor Laporan PDF Lengkap & Cetak** | Fitur App | 🟢 Selesai | Fase 1 |
 
 ---
 

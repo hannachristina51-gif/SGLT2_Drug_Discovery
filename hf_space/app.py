@@ -34,12 +34,15 @@ for pattern in [
         pass
 
 # 3. Impor pustaka Machine Learning & Kimia Komputasi
+import datetime
+import streamlit.components.v1 as components
 import joblib
 import pandas as pd
 import numpy as np
 import sklearn
 from rdkit import Chem
 from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
+from pdf_report import generate_single_pdf_report, generate_batch_pdf_report, get_printable_html
 # --- Custom Styling ---
 st.markdown("""
 <style>
@@ -174,72 +177,152 @@ with tab1:
             fp_array, num_features, mol = get_features(smiles_input.strip())
             if mol is None:
                 st.error("❌ Format struktur SMILES tidak valid. Mohon periksa kembali input Anda.")
+                st.session_state["single_result"] = None
             else:
-                col1, col2 = st.columns([1, 2])
-                with col1:
-                    st.markdown("### 🔬 Struktur 2D")
-                    img = Draw.MolToImage(mol, size=(340, 340))
-                    st.image(img, use_container_width=True)
+                pred, ic50_nm = predict_activity(fp_array, num_features)
+                if pred > 6.0:
+                    status = "Potensial Aktif"
+                elif pred > 5.0:
+                    status = "Intermediate"
+                else:
+                    status = "Tidak Aktif"
                 
-                with col2:
-                    pred, ic50_nm = predict_activity(fp_array, num_features)
-                    
-                    st.markdown("### 📊 Hasil Prediksi Bioaktivitas")
-                    mc1, mc2 = st.columns(2)
-                    mc1.metric(label="Prediksi pActivity (pIC50)", value=f"{pred:.2f}")
-                    
-                    if ic50_nm < 1000:
-                        ic50_display = f"{ic50_nm:.2f} nM"
-                    elif ic50_nm < 1_000_000:
-                        ic50_display = f"{(ic50_nm/1000):.2f} µM"
-                    else:
-                        ic50_display = f"{(ic50_nm/1_000_000):.2f} mM"
-                    mc2.metric(label="Estimasi Nilai IC50", value=ic50_display, help="Semakin kecil nilai IC50, semakin poten senyawanya.")
-                    
-                    if pred > 6.0:
-                        st.success("✅ Status: **POTENSIAL AKTIF** (Kandidat Kuat Inhibitor SGLT2)")
-                        status = "Potensial Aktif"
-                    elif pred > 5.0:
-                        st.warning("⚠️ Status: **POTENSI MENENGAH** (Intermediate Activity)")
-                        status = "Intermediate"
-                    else:
-                        st.error("❌ Status: **TIDAK AKTIF** (Inhibisi Rendah / Negatif)")
-                        status = "Tidak Aktif"
-                        
-                    st.markdown("#### 🧪 Validasi Lipinski's Rule of Five")
-                    mw, logp, hdon, hacc = num_features[0]
-                    
-                    v_mw = "✅ Lolos" if mw <= 500 else "❌ Melanggar (> 500)"
-                    v_logp = "✅ Lolos" if logp <= 5 else "❌ Melanggar (> 5)"
-                    v_hdon = "✅ Lolos" if hdon <= 5 else "❌ Melanggar (> 5)"
-                    v_hacc = "✅ Lolos" if hacc <= 10 else "❌ Melanggar (> 10)"
-                    
-                    c_lip1, c_lip2 = st.columns(2)
-                    with c_lip1:
-                        st.write(f"- **Molecular Weight**: `{mw:.2f}` ({v_mw})")
-                        st.write(f"- **LogP**: `{logp:.2f}` ({v_logp})")
-                    with c_lip2:
-                        st.write(f"- **H-Donors**: `{int(hdon)}` ({v_hdon})")
-                        st.write(f"- **H-Acceptors**: `{int(hacc)}` ({v_hacc})")
-                    
-                    # Download Report
-                    report_df = pd.DataFrame([{
-                        "SMILES": smiles_input.strip(),
-                        "Prediksi_pActivity": round(pred, 2),
-                        "Estimasi_IC50_nM": round(ic50_nm, 2),
-                        "Status": status,
-                        "Molecular_Weight": round(mw, 2),
-                        "LogP": round(logp, 2),
-                        "H_Donors": int(hdon),
-                        "H_Acceptors": int(hacc)
-                    }])
-                    csv_data = report_df.to_csv(index=False).encode('utf-8')
-                    st.download_button(
-                        label="📥 Unduh Laporan Prediksi (.csv)",
-                        data=csv_data,
-                        file_name="sglt2_single_prediction_report.csv",
-                        mime="text/csv"
-                    )
+                mw, logp, hdon, hacc = num_features[0]
+                v_mw = "✅ Lolos" if mw <= 500 else "❌ Melanggar (> 500)"
+                v_logp = "✅ Lolos" if logp <= 5 else "❌ Melanggar (> 5)"
+                v_hdon = "✅ Lolos" if hdon <= 5 else "❌ Melanggar (> 5)"
+                v_hacc = "✅ Lolos" if hacc <= 10 else "❌ Melanggar (> 10)"
+
+                compound_name = selected_preset if selected_preset != "(Ketik SMILES kustom di bawah)" else "Senyawa Uji Kustom"
+
+                st.session_state["single_result"] = {
+                    "smiles": smiles_input.strip(),
+                    "compound_name": compound_name,
+                    "pred": pred,
+                    "ic50_nm": ic50_nm,
+                    "status": status,
+                    "mw": mw,
+                    "logp": logp,
+                    "hdon": hdon,
+                    "hacc": hacc,
+                    "mol": mol,
+                    "v_mw": v_mw,
+                    "v_logp": v_logp,
+                    "v_hdon": v_hdon,
+                    "v_hacc": v_hacc
+                }
+
+    # Render Hasil Analisis dari Session State
+    res = st.session_state.get("single_result", None)
+    if res is not None and res.get("mol") is not None:
+        col1, col2 = st.columns([1, 2])
+        with col1:
+            st.markdown("### 🔬 Struktur 2D")
+            img = Draw.MolToImage(res["mol"], size=(340, 340))
+            st.image(img, use_container_width=True)
+        
+        with col2:
+            st.markdown("### 📊 Hasil Prediksi Bioaktivitas")
+            mc1, mc2 = st.columns(2)
+            mc1.metric(label="Prediksi pActivity (pIC50)", value=f"{res['pred']:.2f}")
+            
+            ic50_nm = res["ic50_nm"]
+            if ic50_nm < 1000:
+                ic50_display = f"{ic50_nm:.2f} nM"
+            elif ic50_nm < 1_000_000:
+                ic50_display = f"{(ic50_nm/1000):.2f} µM"
+            else:
+                ic50_display = f"{(ic50_nm/1_000_000):.2f} mM"
+            mc2.metric(label="Estimasi Nilai IC50", value=ic50_display, help="Semakin kecil nilai IC50, semakin poten senyawanya.")
+            
+            if res["status"] == "Potensial Aktif":
+                st.success("✅ Status: **POTENSIAL AKTIF** (Kandidat Kuat Inhibitor SGLT2)")
+            elif res["status"] == "Intermediate":
+                st.warning("⚠️ Status: **POTENSI MENENGAH** (Intermediate Activity)")
+            else:
+                st.error("❌ Status: **TIDAK AKTIF** (Inhibisi Rendah / Negatif)")
+                
+            st.markdown("#### 🧪 Validasi Lipinski's Rule of Five")
+            c_lip1, c_lip2 = st.columns(2)
+            with c_lip1:
+                st.write(f"- **Molecular Weight**: `{res['mw']:.2f}` ({res['v_mw']})")
+                st.write(f"- **LogP**: `{res['logp']:.2f}` ({res['v_logp']})")
+            with c_lip2:
+                st.write(f"- **H-Donors**: `{int(res['hdon'])}` ({res['v_hdon']})")
+                st.write(f"- **H-Acceptors**: `{int(res['hacc'])}` ({res['v_hacc']})")
+
+        # --- Bagian Ekspor Laporan PDF Lengkap & Fitur Cetak ---
+        st.markdown("---")
+        st.markdown("### 📑 Ekspor Laporan Resmi & Cetak Dokumen")
+        st.caption("Unduh berkas laporan komprehensif berformat PDF atau cetak langsung ke printer:")
+
+        col_exp1, col_exp2, col_exp3 = st.columns([1.2, 1, 1.2])
+
+        with col_exp1:
+            try:
+                pdf_bytes = generate_single_pdf_report(
+                    smiles=res["smiles"],
+                    pred=res["pred"],
+                    ic50_nm=res["ic50_nm"],
+                    status=res["status"],
+                    mw=res["mw"],
+                    logp=res["logp"],
+                    hdon=res["hdon"],
+                    hacc=res["hacc"],
+                    mol=res["mol"],
+                    compound_name=res["compound_name"]
+                )
+                ts_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                st.download_button(
+                    label="📑 Unduh Laporan PDF Lengkap",
+                    data=pdf_bytes,
+                    file_name=f"Laporan_SGLT2_{ts_str}.pdf",
+                    mime="application/pdf",
+                    type="primary",
+                    use_container_width=True
+                )
+            except Exception as err:
+                st.error(f"Gagal memformat PDF: {err}")
+
+        with col_exp2:
+            report_df = pd.DataFrame([{
+                "SMILES": res["smiles"],
+                "Prediksi_pActivity": round(res["pred"], 2),
+                "Estimasi_IC50_nM": round(res["ic50_nm"], 2),
+                "Status": res["status"],
+                "Molecular_Weight": round(res["mw"], 2),
+                "LogP": round(res["logp"], 2),
+                "H_Donors": int(res["hdon"]),
+                "H_Acceptors": int(res["hacc"])
+            }])
+            csv_data = report_df.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="📥 Unduh Data (.csv)",
+                data=csv_data,
+                file_name="sglt2_single_prediction_report.csv",
+                mime="text/csv",
+                use_container_width=True
+            )
+
+        with col_exp3:
+            show_print = st.toggle("🖨️ Pratinjau & Cetak Laporan", value=False)
+
+        if show_print:
+            st.markdown("#### 🖨️ Pratinjau Dokumen Cetak")
+            st.info("💡 Klik tombol **'🖨️ Cetak / Print Sekarang'** di pojok kanan atas formulir pratinjau untuk membuka dialog cetak printer bawaan browser Anda.")
+            html_print = get_printable_html(
+                smiles=res["smiles"],
+                pred=res["pred"],
+                ic50_nm=res["ic50_nm"],
+                status=res["status"],
+                mw=res["mw"],
+                logp=res["logp"],
+                hdon=res["hdon"],
+                hacc=res["hacc"],
+                mol=res["mol"],
+                compound_name=res["compound_name"]
+            )
+            components.html(html_print, height=680, scrolling=True)
 
 # ==========================================
 # TAB 2: Batch Virtual Screening
@@ -325,16 +408,39 @@ with tab2:
                         progress_bar.progress((idx + 1) / total)
                         
                     df_res = pd.DataFrame(results)
+                    st.session_state["batch_results"] = df_res
                     st.success(f"🎉 Skrining selesai untuk {total} senyawa!")
+
+                if "batch_results" in st.session_state and st.session_state["batch_results"] is not None:
+                    df_res = st.session_state["batch_results"]
                     st.dataframe(df_res, use_container_width=True)
                     
-                    csv_batch = df_res.to_csv(index=False).encode('utf-8')
-                    st.download_button(
-                        label="📥 Unduh Seluruh Hasil Batch Screening (.csv)",
-                        data=csv_batch,
-                        file_name="sglt2_batch_screening_results.csv",
-                        mime="text/csv"
-                    )
+                    st.markdown("---")
+                    st.markdown("### 📑 Ekspor Hasil Penapisan Massal (Batch)")
+                    col_b_pdf, col_b_csv = st.columns(2)
+                    with col_b_pdf:
+                        try:
+                            batch_pdf_bytes = generate_batch_pdf_report(df_res)
+                            ts_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                            st.download_button(
+                                label="📑 Unduh Rekapitulasi PDF Batch Screening",
+                                data=batch_pdf_bytes,
+                                file_name=f"Rekap_Batch_SGLT2_{ts_str}.pdf",
+                                mime="application/pdf",
+                                type="primary",
+                                use_container_width=True
+                            )
+                        except Exception as err:
+                            st.error(f"Gagal memformat PDF Batch: {err}")
+                    with col_b_csv:
+                        csv_batch = df_res.to_csv(index=False).encode('utf-8')
+                        st.download_button(
+                            label="📥 Unduh Data Lengkap (.csv)",
+                            data=csv_batch,
+                            file_name="sglt2_batch_screening_results.csv",
+                            mime="text/csv",
+                            use_container_width=True
+                        )
         except Exception as e:
             st.error(f"Gagal memproses file CSV: {e}")
 
