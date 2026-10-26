@@ -100,3 +100,11 @@ Dokumen ini mencatat riwayat perubahan dan pembaruan yang dilakukan pada dokumen
   - **Integrasi GitHub Dev Container**: Menyinkronkan konfigurasi `.devcontainer/devcontainer.json` untuk dukungan penuh pada GitHub Codespaces.
   - **Sinkronisasi Dokumen Terpadu**: Memperbarui dokumen `README.md`, `TODO.md`, `README.txt`, dan `hf_space/README.md` untuk menyelaraskan status terkini proyek sebelum diunggah kembali ke GitHub.
 
+## 26 Oktober 2026 - Resolusi Komprehensif Runtime Streamlit Cloud (Bundling Joblib & Dynamic Path Discovery)
+- **Aktivitas**: Mengatasi kendala runtime `ModuleNotFoundError: No module named 'joblib'` dan `subprocess.CalledProcessError` pada Streamlit Community Cloud (`sglt2-drug-discovery.streamlit.app`).
+- **Detail Implementasi**:
+  - **Analisis Akar Masalah**: Container Linux Streamlit Cloud menjalankan Python 3.14 / Debian Bookworm yang menerapkan proteksi PEP 668 (*externally-managed-environment*), sehingga perintah fallback `pip install` via runtime `subprocess.check_call` otomatis ditolak oleh kernel OS (`CalledProcessError`). Selain itu, direktori `site-packages` virtual environment Streamlit (`/home/adminuser/venv/...`) belum terpetakan ke dalam `sys.path` saat container meluncurkan interpreter sistem.
+  - **Pembundelan Pustaka `joblib` Murni**: Membundel pustaka `joblib` (100% *pure Python*, ~1.3 MB tanpa binary C) langsung ke dalam repositori aplikasi (`./joblib/` dan `hf_space/joblib/`). Pendekatan ini menjamin ketersediaan `joblib` secara instan tanpa ketergantungan pada koneksi paket eksternal.
+  - **Pencarian Dinamis Site-Packages**: Menambahkan pemindaian otomatis `glob.glob` untuk seluruh lokasi direktori `site-packages` Linux (`/home/**/site-packages`, `/mount/**/site-packages`, `/usr/local/**/site-packages`) di bagian inisialisasi awal skrip.
+  - **Pembersihan Kode Subprocess**: Menghapus seluruh eksekusi runtime `pip install` via `subprocess` pada `app.py` dan `hf_space/app.py` agar aplikasi berjalan stabil, aman, dan kompatibel penuh dengan Debian Linux PEP 668.
+  - **Pengujian & Deployment**: Menguji impor lokal hingga berstatus sukses tanpa error (`app.py imported successfully!`), menyematkan versi pada `.python-version` (3.11), serta memublikasikan pembaruan ke repositori GitHub pada branch `main`.
