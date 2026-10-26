@@ -11,58 +11,35 @@ st.set_page_config(
 import os
 import sys
 import io
+import glob
 
-# 1. Pastikan seluruh lokasi site-packages potensial di cloud terdaftar pada sys.path
-for site_path in [
-    "/home/adminuser/venv/lib/python3.11/site-packages",
-    "/home/adminuser/venv/lib/python3.12/site-packages",
-    "/home/adminuser/venv/lib/python3.10/site-packages",
-    "/home/adminuser/venv/lib/python3.14/site-packages",
-    "/home/appuser/venv/lib/python3.11/site-packages",
-    "/home/appuser/venv/lib/python3.12/site-packages",
-    "/home/appuser/venv/lib/python3.10/site-packages",
-    os.path.expanduser("~/.local/lib/python3.11/site-packages"),
-    os.path.expanduser("~/.local/lib/python3.12/site-packages"),
-    os.path.expanduser("~/.local/lib/python3.14/site-packages"),
+# 1. Pastikan folder repo (tempat joblib dibundel) menjadi prioritas utama sys.path
+current_dir = os.path.dirname(os.path.abspath(__file__)) if '__file__' in globals() else os.getcwd()
+if current_dir not in sys.path:
+    sys.path.insert(0, current_dir)
+
+# 2. Registrasi dinamis seluruh direktori site-packages di lingkungan Cloud (Streamlit / Linux)
+for pattern in [
+    "/home/**/site-packages",
+    "/home/**/dist-packages",
+    "/mount/**/site-packages",
+    "/usr/local/**/site-packages",
+    "/usr/local/**/dist-packages",
 ]:
-    if os.path.exists(site_path) and site_path not in sys.path:
-        sys.path.insert(0, site_path)
-
-# 2. Impor pustaka Machine Learning & Kimia dengan fallback bertingkat
-try:
-    import joblib
-except ImportError:
     try:
-        import sklearn.utils._joblib as joblib
-    except ImportError:
-        import subprocess
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "joblib"])
-        import joblib
+        for p in glob.glob(pattern, recursive=True):
+            if os.path.isdir(p) and p not in sys.path:
+                sys.path.insert(0, p)
+    except Exception:
+        pass
 
-try:
-    import pandas as pd
-    import numpy as np
-    import sklearn
-    from rdkit import Chem
-    from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
-except ImportError as err:
-    import subprocess
-    st.info(f"Sedang mengunduh dependensi ({err})... Mohon tunggu sebentar.")
-    subprocess.check_call([
-        sys.executable, "-m", "pip", "install",
-        "scikit-learn", "rdkit", "pandas", "numpy", "pillow"
-    ])
-    import pandas as pd
-    import numpy as np
-    import sklearn
-    from rdkit import Chem
-    from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
-    st.rerun()
-
-
-
-
-
+# 3. Impor pustaka Machine Learning & Kimia Komputasi
+import joblib
+import pandas as pd
+import numpy as np
+import sklearn
+from rdkit import Chem
+from rdkit.Chem import Descriptors, Lipinski, AllChem, Draw
 # --- Custom Styling ---
 st.markdown("""
 <style>
