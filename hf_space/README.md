@@ -36,6 +36,8 @@ Aplikasi *Machine Learning* interaktif untuk penemuan obat kandidat inhibitor **
 4. **Validasi Lipinski's Rule of Five**: Analisis kelayakan *drug-likeness* secara instan.
 5. **Batch Virtual Screening**: Skrining massal hingga ratusan senyawa via unggah file CSV.
 6. **Unduh Contoh File CSV**: Fasilitas instan untuk mengunduh template CSV pengujian.
-7. **Ekspor Laporan**: Unduh hasil analisis langsung dalam format CSV.
-8. **Tab Metodologi**: Penjelasan teoritis mengenai target, rumus bioaktivitas, dan arsitektur model.
+7. **Ekspor Laporan PDF Lengkap**: Unduh berkas PDF resmi A4 lengkap dengan struktur 2D molekul, afinitas bioaktivitas, dan evaluasi Lipinski.
+8. **Pratinjau & Cetak Interaktif**: Cetak hasil prediksi langsung ke printer fisik atau simpan ke PDF browser dengan format CSS cetak rapi.
+9. **Ekspor Data Tabular (.csv)**: Unduh dataset hasil penapisan senyawa tunggal maupun batch.
+10. **Tab Metodologi**: Penjelasan teoritis mengenai target biologis, rumus bioaktivitas, dan arsitektur model.
 

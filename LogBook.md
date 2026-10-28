@@ -141,3 +141,17 @@ Dokumen ini mencatat riwayat perubahan dan pembaruan yang dilakukan pada dokumen
     - Menambahkan `fpdf2>=2.8.0` pada `requirements.txt`.
     - Menyinkronkan pembaruan kode ke direktori `hf_space/`.
     - Memperbarui status tugas nomor 15 pada `TODO.md` menjadi selesai.
+
+## 27 Oktober 2026 - Pembaruan Menyeluruh LogBook, Sinkronisasi Dokumentasi, & Publikasi Repositori GitHub
+- **Aktivitas**: Mengonsolidasikan seluruh log pembaruan terkini (fitur ekspor PDF, pratinjau cetak interaktif, pembundelan pustaka mandiri, serta stabilisasi deployment), menyelaraskan dokumentasi proyek, dan memublikasikan seluruh pembaruan ke repositori GitHub.
+- **Detail Pembaruan & Integrasi**:
+  - **Sinkronisasi Dokumen Teknis**:
+    - Memperbarui `README.md` dengan penambahan deskripsi fitur ekspor laporan resmi PDF, pratinjau cetak satu klik (*one-click browser print*), serta pembaruan diagram pohon struktur repositori yang mencakup `pdf_report.py`, `joblib/`, dan `fpdf/`.
+    - Memperbarui berkas `hf_space/README.md` untuk menyelaraskan daftar fitur siap-deploy pada platform Hugging Face Spaces.
+    - Memastikan status tugas #15 pada roadmap strategis `TODO.md` telah terverifikasi selesai (*completed*).
+  - **Verifikasi Kesiapan Kode & Dependensi**:
+    - Memastikan seluruh modul utama (`app.py`, `pdf_report.py`) dan pustaka pendukung (`joblib/`, `fpdf/`) berada dalam kondisi bersih, teruji lokal tanpa galat (*zero syntax error*).
+    - Memastikan dependensi `requirements.txt` dan `packages.txt` sinkron antara root proyek dan direktori `hf_space/`.
+  - **Publikasi ke Repositori GitHub**:
+    - Melakukan `git add`, `git commit`, dan `git push` seluruh pembaruan ke branch `main` repositori publik GitHub (`hannachristina51-gif/SGLT2_Drug_Discovery`).
+    - Melakukan sanitasi kredensial URL remote Git demi menjaga keamanan akses repositori.

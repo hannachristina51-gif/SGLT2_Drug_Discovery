@@ -29,7 +29,9 @@ Proyek ini mencakup alur lengkap (*end-to-end pipeline*):
   - *H-Bond Acceptors (HBA) $\le 10$*
 - **🗂️ Batch Virtual Screening**: Fasilitas unggah berkas CSV berisi ratusan hingga ribuan senyawa sekaligus untuk diskrining secara paralel dan massal.
 - **📄 Unduh Contoh Berkas CSV**: Tersedia tombol instan untuk mengunduh contoh berkas CSV pengujian bagi reviewer atau pengguna baru.
-- **📥 Ekspor Laporan Otomatis**: Unduh seluruh hasil analisis baik senyawa tunggal maupun batch ke dalam format berkas `.csv`.
+- **📑 Ekspor Laporan PDF Lengkap**: Unduh berkas laporan resmi A4 format PDF yang memuat rendering struktur 2D beresolusi tinggi via RDKit, nilai afinitas ($pIC_{50}$ & $IC_{50}$), tabel evaluasi 4 parameter *Lipinski's Rule of Five*, ringkasan metodologi AI, dan *scientific disclaimer*.
+- **🖨️ Fitur Cetak Dokumen Langsung (*One-Click Browser Print*)**: Pratinjau cetak interaktif dengan tata letak rapi CSS `@media print` untuk mencetak dokumen langsung ke printer fisik atau menyimpan sebagai file PDF bawaan sistem.
+- **📥 Ekspor Data Tabular (.csv)**: Unduh seluruh data hasil prediksi senyawa tunggal maupun rekapitulasi massal (batch) dalam format berkas `.csv`.
 - **📖 Tab Metodologi Sains**: Penjelasan terperinci mengenai metrik bioaktivitas, rumus perhitungan $IC_{50}$, aturan Lipinski, dan arsitektur model.
 
 ---
@@ -51,8 +53,11 @@ Proyek ini mencakup alur lengkap (*end-to-end pipeline*):
 ```text
 ├── .devcontainer/              # Konfigurasi container development (GitHub Codespaces)
 ├── app.py                      # Aplikasi web interaktif utama (Streamlit)
+├── pdf_report.py               # Generator laporan PDF resmi & template cetak interaktif
+├── joblib/                     # Pustaka serialisasi model (dibundel lokal cloud-ready)
+├── fpdf/                       # Pustaka generator PDF (dibundel lokal cloud-ready)
 ├── packages.txt                # Dependensi pustaka sistem Linux Debian (libxrender1, libxext6)
-├── requirements.txt            # Dependensi pustaka Python cloud-ready
+├── requirements.txt            # Dependensi pustaka Python cloud-ready (termasuk fpdf2)
 ├── LogBook.md                  # Buku log historis progres riset mingguan
 ├── TODO.md                     # Roadmap pengembangan strategis & to-do list
 ├── run_windows.bat             # Skrip launcher cepat untuk Windows
@@ -63,6 +68,9 @@ Proyek ini mencakup alur lengkap (*end-to-end pipeline*):
 ├── deploy_to_hf.py             # Skrip otomatisasi deployment ke Hugging Face Spaces
 ├── hf_space/                   # Bundel mandiri siap-deploy ke Hugging Face Spaces
 │   ├── app.py
+│   ├── pdf_report.py
+│   ├── joblib/
+│   ├── fpdf/
 │   ├── README.md
 │   ├── requirements.txt
 │   ├── packages.txt
