@@ -4,17 +4,21 @@ Dokumen ini memetakan peta jalan (*roadmap*) dan daftar tugas (*to-do list*) str
 
 ---
 
-## 🎯 Ringkasan Status Saat Ini (Baseline v1.0)
-- [x] Ekstraksi data ChEMBL target SGLT2 (*Target ID: CHEMBL1808*, 1.760 senyawa terkurasi).
-- [x] Ekstraksi deskriptor Lipinski (MW, LogP, HBD, HBA) dan Morgan Fingerprints (1024 & 2048-bit).
-- [x] Pelatihan model *Random Forest Regressor* dengan *Bemis-Murcko Scaffold Split* dan *Hyperparameter Tuning*.
-- [x] Validasi senyawa kontrol dunia nyata (*Dapagliflozin* terdeteksi dengan pActivity tertinggi 7.84).
+## 🎯 Ringkasan Status Saat Ini (Baseline v1.0 — Oktober 2026)
+- [x] **Website Aplikasi Live (Streamlit Cloud)**: Berjalan aktif dan dapat diakses publik di **[https://sglt2-drug-discovery.streamlit.app/](https://sglt2-drug-discovery.streamlit.app/)**.
+- [x] **Repositori Publik GitHub**: Terdokumentasi lengkap di **[github.com/hannachristina51-gif/SGLT2_Drug_Discovery](https://github.com/hannachristina51-gif/SGLT2_Drug_Discovery)**.
+- [x] Ekstraksi data ChEMBL target SGLT2 (*Target ID: CHEMBL1808*, 4.114 data mentah disaring menjadi 1.760 senyawa terkurasi bersih).
+- [x] Ekstraksi deskriptor Lipinski (MW, LogP, HBD, HBA) dan Morgan Fingerprints (ECFP4 1024-bit & 2048-bit $\rightarrow$ total 2.052 fitur hibrida).
+- [x] Pelatihan model *Random Forest Regressor* ($R^2 = 0.7297$, $\text{RMSE} = 0.6317$) dengan *Bemis-Murcko Scaffold Split* (70:30), *Hyperparameter Tuning* (`GridSearchCV`), serta komparasi terhadap *HistGradientBoostingRegressor* ($R^2 = 0.7044$).
+- [x] Validasi senyawa kontrol dunia nyata (*Dapagliflozin* terdeteksi di peringkat #1 dengan $pActivity$ tertinggi **7.84** / $IC_{50} \approx 14.33\text{ nM}$).
 - [x] Aplikasi Web Streamlit interaktif (`app.py`): *Single Molecule Prediction*, *Rule of 5 validation*, *Batch Screening CSV*, dan ekspor laporan CSV.
+- [x] Modul Generator Laporan PDF Resmi A4 (`pdf_report.py` berbasis `fpdf2`) untuk *Single Molecule* & *Rekapitulasi Batch Top 20*, serta fitur Cetak Dokumen 1-Klik (*One-Click Browser Print* via CSS `@media print`).
 - [x] Menu *preset* molekul kontrol komersial (*Dapagliflozin, Empagliflozin, Canagliflozin, Metformin, Aspirin*).
-- [x] Fasilitas unduhan berkas CSV contoh untuk pengujian *batch screening*.
+- [x] Fasilitas unduhan berkas CSV contoh (`sample_batch_sglt2.csv`) untuk pengujian *batch screening*.
 - [x] Tab khusus *Metodologi & Petunjuk Sains*.
 - [x] Paket siap-deploy ke Hugging Face Spaces (`hf_space/`) & skrip otomatis `deploy_to_hf.py`.
-- [x] Kompatibilitas deployment penuh ke Streamlit Community Cloud (`packages.txt` & `requirements.txt` Linux ready) dan GitHub Codespaces (`.devcontainer`).
+- [x] Kompatibilitas deployment penuh ke Streamlit Community Cloud (`packages.txt`, `requirements.txt`, *self-contained local bundling* `joblib/` & `fpdf/` untuk Debian Linux PEP 668, dan *dynamic `site-packages` discovery*) serta GitHub Codespaces (`.devcontainer`).
+- [x] Materi Presentasi PowerPoint Komprehensif Terbaru (14 Slide Widescreen 16:9: `Presentasi_SGLT2_Drug_Discovery_Terbaru.pptx`, `presentation.pptx`, `presentation.md`, dan generator otomatis `create_pptx.py`).
 
 
 ---
@@ -102,7 +106,7 @@ Dokumen ini memetakan peta jalan (*roadmap*) dan daftar tugas (*to-do list*) str
 
 ### 3.3 Skalabilitas Arsitektur & Deployment Produksi
 - [x] **Cloud Hosting & Deployment (Streamlit Cloud & Hugging Face Spaces)** `[SELESAI]`
-  - Konfigurasi repositori siap-pakai di Streamlit Community Cloud (dukungan `packages.txt` & `requirements.txt`).
+  - Aplikasi telah online secara *live* di Streamlit Community Cloud: **[https://sglt2-drug-discovery.streamlit.app/](https://sglt2-drug-discovery.streamlit.app/)** (dukungan `packages.txt`, `requirements.txt`, *local bundling* `joblib/` & `fpdf/`, serta *dynamic `site-packages` discovery*).
   - Pembuatan bundel mandiri `hf_space/` dan skrip otomatis `deploy_to_hf.py` untuk Hugging Face Spaces.
   - Penambahan `.devcontainer/devcontainer.json` untuk dukungan langsung di GitHub Codespaces.
 - [ ] **Containerization Mandiri (Dockerfile & docker-compose.yml)** `[SEDANG]`
@@ -134,6 +138,8 @@ Dokumen ini memetakan peta jalan (*roadmap*) dan daftar tugas (*to-do list*) str
 | 13 | **Model Graph Neural Network (Chemprop/GNN)** | AI Lanjutan | 🟡 Sedang | Fase 3 |
 | 14 | **Containerization Docker & FastAPI Service** | Infrastruktur | 🟡 Sedang | Fase 3 |
 | 15 | **Ekspor Laporan PDF Lengkap & Cetak** | Fitur App | 🟢 Selesai | Fase 1 |
+| 16 | **Cloud Hosting Live (`sglt2-drug-discovery.streamlit.app` & `hf_space/`)** | Infrastruktur Cloud | 🟢 Selesai | Fase 3 |
+| 17 | **Presentasi PowerPoint Terbaru (14 Slide Widescreen 16:9)** | Dokumentasi & Riset | 🟢 Selesai | Baseline v1.0 |
 
 ---
 

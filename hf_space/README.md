@@ -12,6 +12,9 @@ license: mit
 
 # SGLT2 Inhibitor - Virtual Screening & Drug Discovery Platform 🧬
 
+🌐 **Website Aplikasi Live (Streamlit Cloud)**: **[https://sglt2-drug-discovery.streamlit.app/](https://sglt2-drug-discovery.streamlit.app/)**
+🐙 **Repositori GitHub**: **[https://github.com/hannachristina51-gif/SGLT2_Drug_Discovery](https://github.com/hannachristina51-gif/SGLT2_Drug_Discovery)**
+
 Aplikasi *Machine Learning* interaktif untuk penemuan obat kandidat inhibitor **Sodium-Glucose Cotransporter 2 (SGLT2)**, target terapi utama pada pengobatan Diabetes Melitus Tipe 2.
 
 ## 🔬 Informasi Target & Data
