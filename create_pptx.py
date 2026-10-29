@@ -336,8 +336,8 @@ def create_presentation():
     ap1.font.bold = True
     ap1.font.color.rgb = C_WHITE
     ap2 = atf.add_paragraph()
-    ap2.text = "👨‍🏫 Dosen Pengampu / Pembimbing: Prof. Arry   |   🌐 Publikasi: github.com/hannachristina51-gif/SGLT2_Drug_Discovery   |   Update Terbaru: Oktober 2026"
-    ap2.font.size = Pt(12)
+    ap2.text = "👨‍🏫 Dosen Pengampu / Pembimbing: Prof. Arry   |   🌐 Web App: https://sglt2-drug-discovery.streamlit.app/   |   🐙 GitHub: hannachristina51-gif/SGLT2_Drug_Discovery"
+    ap2.font.size = Pt(11.5)
     ap2.font.color.rgb = RGBColor(148, 163, 184)
 
     # ==========================================================================
@@ -921,13 +921,13 @@ def create_presentation():
     add_card(s10, 0.5, 1.4, 6.0, 2.7, accent_top_color=C_NAVY_MED)
     add_card_text(
         s10, 0.5, 1.48, 6.0, 2.55,
-        "☁️ 1. Optimasi Khusus Streamlit Community Cloud",
+        "☁️ 1. Website Live: https://sglt2-drug-discovery.streamlit.app/",
         [
-            ("Self-Contained Library Bundling (./joblib & ./fpdf)", "Membundel pustaka pure-Python joblib dan fpdf2 langsung di repositori untuk melewati pembatasan PEP 668 pada container Debian Linux / Python 3.11–3.14."),
-            ("Dynamic Site-Packages Discovery", "Pemindaian otomatis direktori site-packages Linux via glob.glob saat startup."),
-            ("Dukungan Grafis Sistem (packages.txt)", "Menyertakan libxrender1 & libxext6 agar RDKit dapat merender gambar 2D di server headless.")
+            ("Akses Publik Instan (Streamlit Cloud)", "Aplikasi telah online dan dapat diakses langsung melalui https://sglt2-drug-discovery.streamlit.app/ tanpa instalasi lokal."),
+            ("Self-Contained Bundling (./joblib & ./fpdf)", "Membundel pustaka pure-Python joblib & fpdf2 di repositori untuk melewati pembatasan PEP 668 Debian Linux."),
+            ("Dynamic Path Discovery & packages.txt", "Pemindaian otomatis site-packages Linux serta dukungan libxrender1 & libxext6 untuk RDKit.")
         ],
-        heading_color=C_NAVY_MED, heading_size=14, body_size=10.8
+        heading_color=C_NAVY_MED, heading_size=13.5, body_size=10.5
     )
 
     add_card(s10, 6.8, 1.4, 6.0, 2.7, accent_top_color=C_TEAL_ACCENT)
@@ -1194,8 +1194,8 @@ def create_presentation():
     pty1.alignment = PP_ALIGN.CENTER
 
     pty2 = ty_tf.add_paragraph()
-    pty2.text = "Hanna Christina Ginting (NPM: 2506713353)  •  Pembimbing: Prof. Arry  •  Universitas Indonesia"
-    pty2.font.size = Pt(12.5)
+    pty2.text = "🌐 Website Aplikasi: https://sglt2-drug-discovery.streamlit.app/  •  Hanna Christina Ginting (2506713353)  •  Prof. Arry (UI)"
+    pty2.font.size = Pt(12)
     pty2.font.color.rgb = RGBColor(186, 230, 253)
     pty2.alignment = PP_ALIGN.CENTER
 

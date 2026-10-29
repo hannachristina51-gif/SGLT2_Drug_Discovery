@@ -28,9 +28,9 @@ Setelah proses instalasi selesai, jalankan perintah berikut di terminal:
 Aplikasi (Web App) akan otomatis terbuka di browser pada alamat:
 http://localhost:8501
 
-=== DEPLOYMENT CLOUD ===
-- Streamlit Community Cloud:
-  Buka tautan: https://share.streamlit.io/deploy?repository=hannachristina51-gif/SGLT2_Drug_Discovery&branch=main&mainModule=app.py
+=== AKSES WEBSITE & DEPLOYMENT CLOUD ===
+- Website Aplikasi Live (Streamlit Community Cloud):
+  https://sglt2-drug-discovery.streamlit.app/
 - Hugging Face Spaces:
   Jalankan perintah: python deploy_to_hf.py
 

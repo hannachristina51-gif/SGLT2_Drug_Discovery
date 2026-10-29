@@ -1,10 +1,12 @@
 # SGLT2 Inhibitor - Virtual Screening & Drug Discovery Platform 🧬
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=hannachristina51-gif/SGLT2_Drug_Discovery&branch=main&mainModule=app.py)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://sglt2-drug-discovery.streamlit.app/)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![RDKit](https://img.shields.io/badge/RDKit-Cheminformatics-brightgreen.svg)](https://www.rdkit.org/)
 [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-1.4+-orange.svg)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+🌐 **Website Aplikasi Live (Streamlit Cloud)**: **[https://sglt2-drug-discovery.streamlit.app/](https://sglt2-drug-discovery.streamlit.app/)**
 
 Platform *in-silico* dan *machine learning* komprehensif untuk menyaring (*virtual screening*) serta memprediksi potensi bioaktivitas kandidat obat inhibitor **Sodium-Glucose Cotransporter 2 (SGLT2 / *SLC5A2*)** dalam terapi pengobatan Diabetes Melitus Tipe 2.
 
@@ -159,11 +161,13 @@ Aplikasi akan otomatis terbuka di browser lokal Anda pada alamat: `http://localh
 
 ---
 
-## 🌐 Deployment Cloud
+## 🌐 Akses Website & Deployment Cloud
 
-### Opsi 1: Streamlit Community Cloud (Rekomendasi Utama)
-Aplikasi ini telah dioptimasi penuh untuk Streamlit Community Cloud (dilengkapi pembundelan lokal `joblib/` & `fpdf/` untuk kompatibilitas Debian Linux PEP 668, pemindaian dinamis `site-packages`, serta `packages.txt`). Luncurkan dengan 1-klik:
-👉 **[Deploy ke Streamlit Cloud](https://share.streamlit.io/deploy?repository=hannachristina51-gif/SGLT2_Drug_Discovery&branch=main&mainModule=app.py)**
+### Opsi 1: Streamlit Community Cloud (Website Aplikasi Live)
+Aplikasi ini sudah berjalan secara *live* dan dapat diakses langsung melalui browser tanpa instalasi:
+👉 **Website Aplikasi Live**: **[https://sglt2-drug-discovery.streamlit.app/](https://sglt2-drug-discovery.streamlit.app/)**
+
+*(Dilengkapi pembundelan lokal `joblib/` & `fpdf/` untuk kompatibilitas Debian Linux PEP 668, pemindaian dinamis `site-packages`, serta `packages.txt`).*
 
 ### Opsi 2: Hugging Face Spaces
 Paket mandiri siap-deploy tersedia di folder `hf_space/`. Untuk mengunggah secara otomatis:

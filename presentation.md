@@ -13,7 +13,8 @@ backgroundColor: #f8fafc
 - **Dosen Pengampu / Pembimbing**: Prof. Arry
 - **Target Biologis**: SGLT2 (*SLC5A2* / `CHEMBL1808`) — 1.760 Senyawa Terkurasi
 - **Performa Model**: *Random Forest Regressor* ($R^2 = 0.7297$, $\text{RMSE} = 0.6317$, *Bemis-Murcko Scaffold Split*)
-- **Repositori**: `github.com/hannachristina51-gif/SGLT2_Drug_Discovery`
+- **Website Aplikasi Live**: https://sglt2-drug-discovery.streamlit.app/
+- **Repositori GitHub**: `github.com/hannachristina51-gif/SGLT2_Drug_Discovery`
 
 ---
 
@@ -135,7 +136,7 @@ Modul pelaporan laboratorium mandiri (`pdf_report.py` berbasis `fpdf2`):
 
 ## 9. Arsitektur Cloud-Ready & Deployment Multi-Platform
 
-1. **☁️ Streamlit Community Cloud (`sglt2-drug-discovery.streamlit.app`)**:
+1. **☁️ Website Live Streamlit Community Cloud (https://sglt2-drug-discovery.streamlit.app/)**:
    - **Self-Contained Bundling**: Pustaka *pure-Python* `joblib/` dan `fpdf/` dibundel langsung di repositori untuk kompatibilitas penuh dengan proteksi PEP 668 pada Linux Debian Bookworm.
    - **Dynamic Path Discovery**: Pemindaian otomatis `site-packages` via `glob.glob` & dukungan `packages.txt` (`libxrender1`, `libxext6`).
 2. **🤗 Hugging Face Spaces (`hf_space/` & `deploy_to_hf.py`)**:
