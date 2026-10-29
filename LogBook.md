@@ -155,3 +155,10 @@ Dokumen ini mencatat riwayat perubahan dan pembaruan yang dilakukan pada dokumen
   - **Publikasi ke Repositori GitHub**:
     - Melakukan `git add`, `git commit`, dan `git push` seluruh pembaruan ke branch `main` repositori publik GitHub (`hannachristina51-gif/SGLT2_Drug_Discovery`).
     - Melakukan sanitasi kredensial URL remote Git demi menjaga keamanan akses repositori.
+
+## 29 Oktober 2026 - Pembaruan Materi Presentasi PowerPoint Terbaru (14 Slide Widescreen)
+- **Aktivitas**: Merombak dan memperbarui skrip generator presentasi (`create_pptx.py`), materi Markdown (`presentation.md`), serta berkas PowerPoint (`presentation.pptx` dan `Presentasi_SGLT2_Drug_Discovery_Terbaru.pptx`) agar mencerminkan seluruh fitur terkini aplikasi.
+- **Detail Pembaruan**:
+  - Memperluas cakupan presentasi menjadi **14 slide Widescreen (16:9)** dengan desain visual profesional bertema *Medical AI / Bioinformatics*.
+  - Menyematkan langsung 3 grafik analisis EDA dari folder `plots/` dan merender struktur kimia 2D senyawa inhibitor SGLT2 komersial (*Dapagliflozin* & *Empagliflozin*) menggunakan RDKit ke dalam slide.
+  - Menambahkan pembahasan arsitektur aplikasi web interaktif Streamlit (`app.py`), fitur preset molekul acuan 1-klik, validasi otomatis *Lipinski's Rule of Five*, modul generator laporan PDF resmi A4 (`pdf_report.py` berbasis `fpdf2`), fitur pratinjau cetak langsung (*one-click browser print*), kesiapan deployment multi-platform (Streamlit Community Cloud & Hugging Face Spaces), serta peta jalan strategis (*Roadmap* Fase 1, 2, dan 3).
